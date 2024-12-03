@@ -15,7 +15,7 @@ class Variable:
         if f is not None:
             x = f.input 
             x.grad = f.backward(self.grad)  
-            x.backward() #关键步骤：递归实现反向传播
+            x.backward() 
 
 
 class Function:
