@@ -11,11 +11,14 @@ class Variable:
         self.creator = func
 
     def backward(self):
-        f = self.creator 
-        if f is not None:
-            x = f.input 
-            x.grad = f.backward(self.grad)  
-            x.backward() #关键步骤：递归实现反向传播
+        funcs = [self.creator]
+        while funcs:
+            f = funcs.pop()
+            x, y = f.input, f.output
+            x.grad = f.backward(y.grad)
+            if x.creator is not None:
+                funcs.append(x.creator)
+
 
 
 class Function:
